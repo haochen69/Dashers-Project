@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dasher's Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg: #0f1219; /* Deep Navy from DogeUB */
+            --surface: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-dim: #9aa0a6;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Lexend', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Diagonal Moving Dots */
+        .dot-bg {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1.5px, transparent 1.5px);
+            background-size: 50px 50px;
+            animation: diagonalMove 40s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes diagonalMove {
+            from { transform: translate(0, 0); }
+            to { transform: translate(50px, 50px); }
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 8%;
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            font-size: 0.9rem;
+        }
+
+        .nav-links span {
+            color: var(--text-dim);
+            transition: 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links span:hover { color: white; }
+
+        /* Content */
+        .container {
+            max-width: 1100px;
+            margin: 60px auto;
+            padding: 0 40px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+            letter-spacing: -1.5px;
+        }
+
+        .search-area {
+            margin-bottom: 50px;
+            position: relative;
+            max-width: 550px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-area input {
+            width: 100%;
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: white;
+            font-family: 'Lexend', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        /* Game Cards */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 25px;
+        }
+
+        .game-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 28px; /* Extra bubbly */
+            padding: 15px;
+            cursor: pointer;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.06);
+        }
+
+        .thumb {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: #1a1f29;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: rgba(255,255,255,0.1);
+        }
+
+        .game-name { font-weight: 600; font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+
+    <div class="dot-bg"></div>
+
+    <nav>
+        <div class="logo"><i class="fas fa-bolt"></i> DASHER'S HUB</div>
+        <div class="nav-links">
+            <span><i class="fas fa-gamepad"></i> Games</span>
+            <span><i class="fas fa-cog"></i> Settings</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="hero-title">Library</h1>
+        
+        <div class="search-area">
+            <input type="text" id="gameSearch" placeholder="Search for a game..." onkeyup="filterGames()">
+        </div>
+
+        <div class="game-grid" id="gameGrid">
+            <div class="game-card" onclick="launchGame('bitplanes')">
+                <div class="thumb"><i class="fas fa-plane"></i></div>
+                <div class="game-name">Bitplanes</div>
+            </div>
+
+            <div class="game-card" onclick="launchGame('slope')">
+                <div class="thumb"><i class="fas fa-circle-notch"></i></div>
+                <div class="game-name">Slope</div>
+            </div>
+
+            <div class="game-card" onclick="launchGame('retro-bowl')">
+                <div class="thumb"><i class="fas fa-football-ball"></i></div>
+                <div class="game-name">Retro Bowl</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Logic to search the /gameslist/ folder
+        function launchGame(gameName) {
+            // This redirects to your subfolder: gameslist/game-name.html
+            const gamePath = `./gameslist/${gameName}.html`;
+            window.location.href = gamePath;
+        }
+
+        // Real-time search filter
+        function filterGames() {
+            let input = document.getElementById('gameSearch').value.toLowerCase();
+            let cards = document.getElementsByClassName('game-card');
+
+            for (let i = 0; i < cards.length; i++) {
+                let name = cards[i].getElementsByClassName('game-name')[0].innerText.toLowerCase();
+                if (name.includes(input)) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
